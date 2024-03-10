@@ -77,7 +77,14 @@ async function connectionLogic() {
               } else {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result.video1);
                 await sock.sendMessage(numberWa, {
-                  video: {url: ress}
+                  video: { url: ress },
+                  mimetype: 'video/mp4',
+                  jpegThumbnail: '',
+                  caption: url.split('?')[1],
+                  contextInfo: {
+                    externalAdReply: { showAdAttribution: true
+                    }
+                  }
                 })
               }
               break;
