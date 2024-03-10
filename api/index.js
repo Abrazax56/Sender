@@ -90,20 +90,8 @@ async function connectionLogic() {
                   })
                 } else {
                   await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages[0]})
-                  ress.images.map(async(link, i) => {
-                    await sock.sendMessage(numberWa, {
-                      image: {
-                        url: link
-                      },
-                      mimetype: "image/jpeg",
-                      jpegThumbnail: link,
-                      caption: "urutan ke : " + (i + 1),
-                      contextInfo: {
-                        externalAdReply:{
-                          showAdAttribution: true
-                        }
-                      }
-                    })
+                  ress.images.map((link, i) => {
+                    sock.sendMessage(numberWa, { image: { url: link }, jpegThumbnail: link, caption: "urutan ke : " + (i + 1)})
                   });
                 }
               }
