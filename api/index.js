@@ -91,7 +91,7 @@ async function connectionLogic() {
                 } else {
                   await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages[0]})
                   ress.images.map((link, i) => {
-                    sock.sendMessage(numberWa, { image: { url: link }, jpegThumbnail: link, caption: "urutan ke : " + (i + 1)})
+                    sock.sendMessage(numberWa, { image: { url: link }});
                   });
                 }
               }
