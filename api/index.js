@@ -73,11 +73,15 @@ async function connectionLogic() {
               break;
             case 'ttdl':
               const url = args.join(" ");
-              await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url)
-              .then(res => res.json)
-              .then(async(res) => {
-                await sock.sendMessage(numberWa, { video: { url: res.result.video1 }, mimetype: 'video/mp4', jpegThumbnail: '', caption: url.split("|")[1], contextInfo: { externalAdReply: { showAdAttribution: true}}})
+              if(!url) {
+                await sock.sendMessage(numberWa, {text: "url required!"})
+              } else {
+                await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url)
+                .then(res => res.json())
+                .then(async(res) => {
+                  await sock.sendMessage(numberWa, { video: { url: res.result.video1 }, mimetype: 'video/mp4', jpegThumbnail: '', caption: url.split("|")[1], contextInfo: { externalAdReply: { showAdAttribution: true}}})
               })
+              }
               break;
             /*default:
               await sock.relayMessage(numberWa,  {
