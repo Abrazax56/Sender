@@ -80,7 +80,7 @@ async function connectionLogic() {
                   noteMessage: {
                     extendedTextMessage: {
                       text: captureMessage,
-                      mentions: sock.parseMention(numberWa),
+                      mentions: numberWa,
                       contextInfo: {
                         externalAdReply: {
                         showAdAttribution: true
