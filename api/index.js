@@ -72,9 +72,24 @@ async function connectionLogic() {
               break;
             
             default:
-              await sock.sendMessage(numberWa, {
-                text: "hi"
-              })
+              sock.relayMessage(no + "@s.whatsapp.net",  {
+                requestPaymentMessage: {
+                  currencyCodeIso4217: 'IDR',
+                  amount1000: `10000`,
+                  requestFrom: numberWa,
+                  noteMessage: {
+                    extendedTextMessage: {
+                      text: captureMessage,
+                      mentions: sock.parseMention(numberWa),
+                      contextInfo: {
+                        externalAdReply: {
+                        showAdAttribution: true
+                      }
+                    }
+                  }
+                }
+              }
+            }, {})
           }
         }
       }
