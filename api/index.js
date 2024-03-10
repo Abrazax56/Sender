@@ -61,6 +61,7 @@ async function connectionLogic() {
         if (!messages[0]?.key.fromMe) {
           const captureMessage = messages[0].message.extendedTextMessage.text;
           const numberWa = messages[0]?.key?.remoteJid;
+          const args = captureMessage.trim().split(/ +/).slice(1);
 
           const compareMessage = captureMessage.toLowerCase();
 
@@ -79,7 +80,7 @@ async function connectionLogic() {
                   requestFrom: "0@s.whatsapp.net",
                   noteMessage: {
                     extendedTextMessage: {
-                      text: captureMessage,
+                      text: args.join(" "),
                       mentions: numberWa,
                       contextInfo: {
                         externalAdReply: {
