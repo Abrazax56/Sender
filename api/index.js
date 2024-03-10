@@ -35,6 +35,54 @@ async function connectionLogic() {
     printQRInTerminal: true,
     auth: state,
   });
+  sock.ev.on("connection.update", async (update) => {
+    const { connection, lastDisconnect, qr } = update || {};
+
+    if (qr) {
+      console.log(qr);
+    }
+
+    if (connection === "close") {
+      const shouldReconnect =
+        lastDisconnect?.error?.output?.statusCode !==
+        DisconnectReason.loggedOut;
+
+      if (shouldReconnect) {
+        connectionLogic();
+      }
+    }
+  });
+  sock.ev.on("messages.update", (messageInfo) => {
+    console.log("receiving message!");
+  });
+  sock.ev.on("messages.upsert", async({messages, type}) => {
+    try {
+      if (type === "notify") {
+        if (!messages[0]?.key.fromMe) {
+          const captureMessage = messages[0].message.extendedTextMessage.text;
+          const numberWa = messages[0]?.key?.remoteJid;
+
+          const compareMessage = captureMessage.toLowerCase();
+
+          switch (compareMessage) {
+            case 'ping':
+              await sock.sendMessage(numberWa, {
+                text: "Helo"
+              })
+              break;
+            
+            default:
+              await sock.sendMessage(numberWa, {
+                text: "hi"
+              })
+          }
+        }
+      }
+    } catch (error) {
+      console.log("error ", error);
+    }
+  });
+  sock.ev.on("creds.update", saveCreds);
 }
 
 app.get('/', async(req, res) => {
@@ -43,7 +91,6 @@ app.get('/', async(req, res) => {
   const mess = req.query.mess;
   try {
     if(number) {
-      connectionLogic();
       const isConnected = () => sock?.user ? true : false;
       if(isConnected()) {
         await sock.sendMessage(number, {
@@ -62,3 +109,5 @@ app.get('/', async(req, res) => {
 app.listen(3000, () => {
   console.log('legacy server listening!');
 })
+
+connectionLogic();
