@@ -76,10 +76,10 @@ async function connectionLogic() {
               await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url)
               .then(res => res.json)
               .then(async(res) => {
-                await sock.sendMessage(numberWa, { video: { url: res.result.video1 }, mimetype: 'video/mp4', jpegThumbnail: '', caption: url.split("|")[1], contextInfo: { externalAdReply: { showAdAttribution: true}}}, {quoted: messages})
+                await sock.sendMessage(numberWa, { video: { url: res.result.video1 }, mimetype: 'video/mp4', jpegThumbnail: '', caption: url.split("|")[1], contextInfo: { externalAdReply: { showAdAttribution: true}}})
               })
               break;
-            default:
+            /*default:
               await sock.relayMessage(numberWa,  {
                 requestPaymentMessage: {
                   currencyCodeIso4217: 'IDR',
@@ -97,7 +97,7 @@ async function connectionLogic() {
                   }
                 }
               }
-            }, {})
+            }, {})*/
           }
         }
       }
