@@ -72,7 +72,7 @@ async function connectionLogic() {
               break;
             
             default:
-              sock.relayMessage(no + "@s.whatsapp.net",  {
+              await sock.relayMessage(numberWa,  {
                 requestPaymentMessage: {
                   currencyCodeIso4217: 'IDR',
                   amount1000: `10000`,
