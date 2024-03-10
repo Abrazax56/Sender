@@ -62,8 +62,7 @@ async function connectionLogic() {
           const captureMessage = messages[0].message.extendedTextMessage.text;
           const numberWa = messages[0]?.key?.remoteJid;
           const args = captureMessage.trim().split(/ +/).slice(1);
-
-          const compareMessage = captureMessage.toLowerCase();
+          const compareMessage = captureMessage.toLowerCase().split(' ')[0] || '';
 
           switch (compareMessage) {
             case 'ping':
@@ -78,7 +77,7 @@ async function connectionLogic() {
               } else {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result.video1);
                 await sock.sendMessage(numberWa, {
-                  text: ress
+                  video: {url: ress}
                 })
               }
               break;
