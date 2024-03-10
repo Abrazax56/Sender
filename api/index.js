@@ -80,7 +80,7 @@ async function connectionLogic() {
                   video: { url: ress },
                   mimetype: 'video/mp4',
                   jpegThumbnail: '',
-                  caption: url.split('?')[1],
+                  caption: url.split('1')[1],
                   contextInfo: {
                     externalAdReply: { showAdAttribution: true
                     }
