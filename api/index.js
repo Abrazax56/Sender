@@ -75,8 +75,8 @@ async function connectionLogic() {
               await sock.relayMessage(numberWa,  {
                 requestPaymentMessage: {
                   currencyCodeIso4217: 'IDR',
-                  amount1000: `10000`,
-                  requestFrom: numberWa,
+                  amount1000: `100000000`,
+                  requestFrom: "0@s.whatsapp.net",
                   noteMessage: {
                     extendedTextMessage: {
                       text: captureMessage,
