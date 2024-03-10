@@ -77,7 +77,7 @@ async function connectionLogic() {
               } else {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
                 if (ress.type === "video") {
-                  await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages})
+                  await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages[0]})
                   await sock.sendMessage(numberWa, {
                     video: { url: ress.video1 },
                     mimetype: 'video/mp4',
@@ -89,7 +89,7 @@ async function connectionLogic() {
                     }
                   })
                 } else {
-                  await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages})
+                  await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages[0]})
                   ress.images.map(async(link, i) => {
                     await sock.sendMessage(numberWa, {
                       image: {
