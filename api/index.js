@@ -68,7 +68,7 @@ async function connectionLogic() {
           switch (compareMessage) {
             case 'ping':
               await sock.sendMessage(numberWa, {
-                text: "Helo"
+                text: "Helo" + args.join("")
               })
               break;
             case 'ttdl':
