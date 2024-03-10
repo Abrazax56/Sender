@@ -75,17 +75,37 @@ async function connectionLogic() {
               if(!url) {
                 await sock.sendMessage(numberWa, {text: "url required!"})
               } else {
-                const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result.video1);
-                await sock.sendMessage(numberWa, {
-                  video: { url: ress },
-                  mimetype: 'video/mp4',
-                  jpegThumbnail: '',
-                  caption: url.split('1')[1],
-                  contextInfo: {
-                    externalAdReply: { showAdAttribution: true
+                const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
+                if (ress.type === "video") {
+                  await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages})
+                  await sock.sendMessage(numberWa, {
+                    video: { url: ress.video1 },
+                    mimetype: 'video/mp4',
+                    jpegThumbnail: '',
+                    caption: url.split('capt:')[0],
+                    contextInfo: {
+                      externalAdReply: { showAdAttribution: true
+                      }
                     }
-                  }
-                })
+                  })
+                } else {
+                  await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages})
+                  ress.images.map(async(link, i) => {
+                    await sock.sendMessage(numberWa, {
+                      image: {
+                        url: link
+                      },
+                      mimetype: "image/jpeg",
+                      jpegThumbnail: link,
+                      caption: "urutan ke : " + (i + 1),
+                      contextInfo: {
+                        externalAdReply:{
+                          showAdAttribution: true
+                        }
+                      }
+                    })
+                  });
+                }
               }
               break;
             /*default:
