@@ -99,8 +99,8 @@ async function connectionLogic() {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
                 const audio = await getBuffer(ress.music);
                 if (ress.type === "video") {
-                  await sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
-                  await sock.sendMessage(numberWa, {
+                  sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
+                  sock.sendMessage(numberWa, {
                     video: { url: ress.video1 },
                     mimetype: 'video/mp4',
                     jpegThumbnail: await getBuffer('https://blob.cloudcomputing.id/images/d4e9c208-77de-4a07-84ca-fb950b7b21cc/logo-tiktok-l-min.jpg'),
@@ -110,14 +110,14 @@ async function connectionLogic() {
                       }
                     }
                   })
-                  await sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
+                  sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
                 } else {
-                  await sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
-                  ress.images.map(async(link, i) => {
+                  sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
+                  ress.images.map((link, i) => {
                     const capt = i + 1;
-                    await sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`});
+                    sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`});
                   });
-                  await sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
+                  sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
                 }
               }
               break;
