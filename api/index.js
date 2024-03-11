@@ -60,7 +60,6 @@ async function connectionLogic() {
     try {
       if (type === "notify") {
         if (!messages[0]?.key.fromMe) {
-          sock.readMessages([messages[0].key]);
           const getBuffer = async (url, options) => {
            	try {
               options ? options : {}
@@ -93,7 +92,6 @@ async function connectionLogic() {
                 await sock.sendMessage(numberWa, {text: "tautan tiktok dibutuhkan!"}, {quoted: messages[0]})
               } else {
                 sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
-                sock.sendPresenceUpdate('composing', numberWa);
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
                 const audio = await getBuffer(ress.music);
                 if (ress.type === "video") {
@@ -118,6 +116,7 @@ async function connectionLogic() {
               }
               break;
             default:
+              sock.readMessages([messages[0].key]);
               sock.sendPresenceUpdate('composing', numberWa) 
               sock.sendMessage(numberWa, {
                 text: "Hai, mungkin kami bisa membantu anda untuk mengunduh media tiktok 😅,\nkirimkan perintah `tiktok<spasi>tautan_tiktok` untuk menggunakannya.\npowered by https://down-tik.vercel.app"
