@@ -10,6 +10,7 @@ const makeWASocket = require("@whiskeysockets/baileys").default;
 const { MongoClient } = require("mongodb");
 const express = require('express');
 const path = require('path');
+const axios = require('axios');
 const pathToDb = path.join(process.cwd(), 'api', 'MongoAuth.js');
 const useMongoDBAuthState = require(pathToDb);
 require('dotenv').config();
@@ -59,6 +60,24 @@ async function connectionLogic() {
     try {
       if (type === "notify") {
         if (!messages[0]?.key.fromMe) {
+          const getBuffer = async (url, options) => {
+           	try {
+              options ? options : {}
+              const res = await axios({
+                method: "get",
+                url,
+                headers: {
+                  'DNT': 1,
+                  'Upgrade-Insecure-Request': 1
+                },
+                ...options,
+                responseType: 'arraybuffer'
+              })
+              return res.data
+           	} catch (err) {
+           	  return err
+           	}
+          }
           const captureMessage = messages[0].message.extendedTextMessage.text;
           const numberWa = messages[0]?.key?.remoteJid;
           const args = captureMessage.trim().split(/ +/).slice(1);
@@ -83,7 +102,7 @@ async function connectionLogic() {
                   await sock.sendMessage(numberWa, {
                     video: { url: ress.video1 },
                     mimetype: 'video/mp4',
-                    jpegThumbnail: 'https://blob.cloudcomputing.id/images/d4e9c208-77de-4a07-84ca-fb950b7b21cc/logo-tiktok-l-min.jpg',
+                    jpegThumbnail: await getBuffer('https://blob.cloudcomputing.id/images/d4e9c208-77de-4a07-84ca-fb950b7b21cc/logo-tiktok-l-min.jpg'),
                     caption: captss,
                     contextInfo: {
                       externalAdReply: { showAdAttribution: true
@@ -92,9 +111,9 @@ async function connectionLogic() {
                   })
                 } else {
                   await sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
-                  ress.images.map((link, i) => {
+                  ress.images.map(async(link, i) => {
                     const capt = i + 1;
-                    sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`});
+                    await sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`, jpegThumbnail: await getBuffer(link), contextInfo: { externalAdReply: { showAdAttribution: true }}});
                   });
                 }
               }
