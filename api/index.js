@@ -72,6 +72,8 @@ async function connectionLogic() {
               break;
             case 'ttdl':
               const url = args.join(" ");
+              const urlTiktok = url.split("|")[0];
+              const captss = url.split("capt:")[1];
               if(!url) {
                 await sock.sendMessage(numberWa, {text: "url required!"})
               } else {
@@ -82,7 +84,7 @@ async function connectionLogic() {
                     video: { url: ress.video1 },
                     mimetype: 'video/mp4',
                     jpegThumbnail: '',
-                    caption: url.split('capt:')[0],
+                    caption: captss,
                     contextInfo: {
                       externalAdReply: { showAdAttribution: true
                       }
@@ -91,7 +93,8 @@ async function connectionLogic() {
                 } else {
                   await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages[0]})
                   ress.images.map((link, i) => {
-                    sock.sendMessage(numberWa, { image: { url: link }});
+                    const capt = i + 1;
+                    sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`});
                   });
                 }
               }
