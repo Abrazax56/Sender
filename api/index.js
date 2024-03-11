@@ -65,25 +65,25 @@ async function connectionLogic() {
           const compareMessage = captureMessage.toLowerCase().split(' ')[0] || '';
 
           switch (compareMessage) {
-            case 'ping':
+            case 'help':
               await sock.sendMessage(numberWa, {
-                text: "Helo" + args.join("")
-              })
+                text: "Hai, mungkin kami bisa membantu anda untuk mengunduh media tiktok 😅,\nkirimkan perintah `tiktok<spasi>tautan_tiktok` untuk menggunakannya."
+              }, {quoted: messages[0]});
               break;
-            case 'ttdl':
+            case 'tiktok':
               const url = args.join(" ");
               const urlTiktok = url.split("|")[0];
               const captss = url.split("capt:")[1];
               if(!url) {
-                await sock.sendMessage(numberWa, {text: "url required!"})
+                await sock.sendMessage(numberWa, {text: "tautan tiktok dibutuhkan!"}, {quoted: messages[0]})
               } else {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
                 if (ress.type === "video") {
-                  await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages[0]})
+                  await sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
                   await sock.sendMessage(numberWa, {
                     video: { url: ress.video1 },
                     mimetype: 'video/mp4',
-                    jpegThumbnail: '',
+                    jpegThumbnail: 'https://blob.cloudcomputing.id/images/d4e9c208-77de-4a07-84ca-fb950b7b21cc/logo-tiktok-l-min.jpg',
                     caption: captss,
                     contextInfo: {
                       externalAdReply: { showAdAttribution: true
@@ -91,7 +91,7 @@ async function connectionLogic() {
                     }
                   })
                 } else {
-                  await sock.sendMessage(numberWa, {text: "tunggu sebentar..."}, {quoted: messages[0]})
+                  await sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
                   ress.images.map((link, i) => {
                     const capt = i + 1;
                     sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`});
@@ -99,25 +99,6 @@ async function connectionLogic() {
                 }
               }
               break;
-            /*default:
-              await sock.relayMessage(numberWa,  {
-                requestPaymentMessage: {
-                  currencyCodeIso4217: 'IDR',
-                  amount1000: `100000000`,
-                  requestFrom: "0@s.whatsapp.net",
-                  noteMessage: {
-                    extendedTextMessage: {
-                      text: args.join(" "),
-                      mentions: numberWa,
-                      contextInfo: {
-                        externalAdReply: {
-                        showAdAttribution: true
-                      }
-                    }
-                  }
-                }
-              }
-            }, {})*/
           }
         }
       }
