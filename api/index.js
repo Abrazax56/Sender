@@ -91,10 +91,10 @@ async function connectionLogic() {
               if(!url) {
                 await sock.sendMessage(numberWa, {text: "tautan tiktok dibutuhkan!"}, {quoted: messages[0]})
               } else {
-                sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
                 const audio = await getBuffer(ress.music);
                 if (ress.type === "video") {
+                  sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
                   sock.sendMessage(numberWa, {
                     video: { url: ress.video1 },
                     mimetype: 'video/mp4',
@@ -107,6 +107,7 @@ async function connectionLogic() {
                   })
                   sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
                 } else {
+                  sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
                   ress.images.map((link, i) => {
                     const capt = i + 1;
                     sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`});
