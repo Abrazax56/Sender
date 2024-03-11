@@ -115,7 +115,7 @@ async function connectionLogic() {
                   await sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
                   ress.images.map(async(link, i) => {
                     const capt = i + 1;
-                    await sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`, contextInfo: { externalAdReply: { showAdAttribution: true }}});
+                    await sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`});
                   });
                   await sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
                 }
