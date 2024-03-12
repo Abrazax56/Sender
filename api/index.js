@@ -117,7 +117,7 @@ async function connectionLogic() {
               sock.sendMessage(numberWa, {
                 text: "Hai, mungkin kami bisa membantu anda untuk mengunduh media tiktok 😅,\nkirimkan perintah `tiktok<spasi>tautan_tiktok` untuk menggunakannya.\npowered by https://down-tik.vercel.app"
               }, {quoted: messages[0]});*/
-              sock.chatModify({
+              await sock.chatModify({
                 delete: true,
                 lastMessages: [{ key: messages[0].key, messageTimestamp: messages[0].messageTimestamp }]
              }, numberWa)
