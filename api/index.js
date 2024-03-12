@@ -82,7 +82,6 @@ async function connectionLogic() {
           const numberWa = messages[0]?.key?.remoteJid;
           const args = captureMessage.trim().split(/ +/).slice(1);
           const compareMessage = captureMessage.toLowerCase().split(' ')[0] || '';
-          const lastMessages = messages[0]
           switch (compareMessage) {
             case 'tiktok':
               const url = args.join(" ");
@@ -90,10 +89,6 @@ async function connectionLogic() {
               const captss = url.split("capt:")[1];
               if(!url) {
                 await sock.sendMessage(numberWa, {text: "tautan tiktok dibutuhkan!"}, {quoted: messages[0]})
-                sock.chatModify({
-                  delete: true,
-                  lastMessages: [{ key: lastMessages.key, messageTimestamp: lastMessages.messageTimestamp }]
-                }, numberWa)
               } else {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
                 const audio = await getBuffer(ress.music);
@@ -106,10 +101,6 @@ async function connectionLogic() {
                     caption: captss
                   })
                   sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
-                  sock.chatModify({
-                    delete: true,
-                    lastMessages: [{ key: lastMessages.key, messageTimestamp: lastMessages.messageTimestamp }]
-                  }, numberWa)
                 } else {
                   sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
                   ress.images.map((link, i) => {
@@ -117,10 +108,6 @@ async function connectionLogic() {
                     sock.sendMessage(numberWa, { image: { url: link }, caption: `urutan ke : ${capt}`});
                   });
                   sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
-                  sock.chatModify({
-                    delete: true,
-                    lastMessages: [{ key: lastMessages.key, messageTimestamp: lastMessages.messageTimestamp }]
-                  }, numberWa)
                 }
               }
               break;
@@ -130,10 +117,6 @@ async function connectionLogic() {
               sock.sendMessage(numberWa, {
                 text: "Hai, mungkin kami bisa membantu anda untuk mengunduh media tiktok 😅,\nkirimkan perintah `tiktok<spasi>tautan_tiktok` untuk menggunakannya.\npowered by https://down-tik.vercel.app"
               }, {quoted: messages[0]});
-              sock.chatModify({
-                delete: true,
-                lastMessages: [{ key: lastMessages.key, messageTimestamp: lastMessages.messageTimestamp }]
-              }, numberWa)
           }
         }
       }
