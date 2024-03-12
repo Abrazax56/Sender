@@ -3,8 +3,7 @@ const {
   useMultiFileAuthState,
   MessageType,
   MessageOptions,
-  Mimetype,
-  getLastMessageInChat
+  Mimetype
 } = require("@whiskeysockets/baileys");
 
 const makeWASocket = require("@whiskeysockets/baileys").default;
@@ -90,8 +89,7 @@ async function connectionLogic() {
               const captss = url.split("capt:")[1];
               if(!url) {
                 await sock.sendMessage(numberWa, {text: "tautan tiktok dibutuhkan!"}, {quoted: messages[0]})
-                console.log(sock);
-                console.log(getLastMessageInChat);
+                console.log(messages[0]);
               } else {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
                 const audio = await getBuffer(ress.music);
