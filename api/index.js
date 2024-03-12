@@ -112,15 +112,11 @@ async function connectionLogic() {
               }
               break;
             default:
-              /*sock.readMessages([messages[0].key]);
+              sock.readMessages([messages[0].key]);
               sock.sendPresenceUpdate('composing', numberWa) 
               sock.sendMessage(numberWa, {
-                text: "Hai, mungkin kami bisa membantu anda untuk mengunduh media tiktok 😅,\nkirimkan perintah `tiktok<spasi>tautan_tiktok` untuk menggunakannya.\npowered by https://down-tik.vercel.app"
-              }, {quoted: messages[0]});*/
-              await sock.chatModify({
-                delete: true,
-                lastMessages: [{ key: messages[0].key, messageTimestamp: messages[0].messageTimestamp }]
-             }, numberWa)
+                text: "Hai, mungkin kami bisa membantu anda untuk mengunduh media tiktok 😅,\nkirimkan perintah `tiktok<spasi>tautan_tiktok` untuk menggunakannya.\n\npowered by https://down-tik.vercel.app"
+              }, {quoted: messages[0]});
           }
         }
       }
