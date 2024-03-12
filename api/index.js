@@ -99,11 +99,7 @@ async function connectionLogic() {
                     video: { url: ress.video1 },
                     mimetype: 'video/mp4',
                     jpegThumbnail: await getBuffer('https://blob.cloudcomputing.id/images/d4e9c208-77de-4a07-84ca-fb950b7b21cc/logo-tiktok-l-min.jpg'),
-                    caption: captss,
-                    contextInfo: {
-                      externalAdReply: { showAdAttribution: true
-                      }
-                    }
+                    caption: captss
                   })
                   sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
                 } else {
