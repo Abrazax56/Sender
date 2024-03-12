@@ -88,8 +88,7 @@ async function connectionLogic() {
               const urlTiktok = url.split("|")[0];
               const captss = url.split("capt:")[1];
               if(!url) {
-                await sock.sendMessage(numberWa, {text: "tautan tiktok dibutuhkan!"}, {quoted: messages[0]})
-                console.log(messages[0]);
+                await sock.sendMessage(numberWa, {text: "tautan tiktok dibutuhkan!"}, {quoted: messages[0]});
               } else {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
                 const audio = await getBuffer(ress.music);
@@ -113,11 +112,15 @@ async function connectionLogic() {
               }
               break;
             default:
-              sock.readMessages([messages[0].key]);
+              /*sock.readMessages([messages[0].key]);
               sock.sendPresenceUpdate('composing', numberWa) 
               sock.sendMessage(numberWa, {
                 text: "Hai, mungkin kami bisa membantu anda untuk mengunduh media tiktok 😅,\nkirimkan perintah `tiktok<spasi>tautan_tiktok` untuk menggunakannya.\npowered by https://down-tik.vercel.app"
-              }, {quoted: messages[0]});
+              }, {quoted: messages[0]});*/
+              sock.chatModify({
+                delete: true,
+                lastMessages: [{ key: messages[0].key, messageTimestamp: messages[0].messageTimestamp }]
+             }, numberWa)
           }
         }
       }
