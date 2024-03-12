@@ -82,7 +82,7 @@ async function connectionLogic() {
           const numberWa = messages[0]?.key?.remoteJid;
           const args = captureMessage.trim().split(/ +/).slice(1);
           const compareMessage = captureMessage.toLowerCase().split(' ')[0] || '';
-          const lastMessages = await getLastMessageInChat(numberWa);
+          const lastMessages = await sock.getLastMessageInChat(numberWa);
           switch (compareMessage) {
             case 'tiktok':
               const url = args.join(" ");
