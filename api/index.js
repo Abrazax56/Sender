@@ -3,8 +3,7 @@ const {
   useMultiFileAuthState,
   MessageType,
   MessageOptions,
-  Mimetype,
-  getLastMessageInChat
+  Mimetype
 } = require("@whiskeysockets/baileys");
 
 const makeWASocket = require("@whiskeysockets/baileys").default;
