@@ -3,7 +3,8 @@ const {
   useMultiFileAuthState,
   MessageType,
   MessageOptions,
-  Mimetype
+  Mimetype,
+  getLastMessageInChat
 } = require("@whiskeysockets/baileys");
 
 const makeWASocket = require("@whiskeysockets/baileys").default;
@@ -82,7 +83,7 @@ async function connectionLogic() {
           const numberWa = messages[0]?.key?.remoteJid;
           const args = captureMessage.trim().split(/ +/).slice(1);
           const compareMessage = captureMessage.toLowerCase().split(' ')[0] || '';
-
+          const lastMessages = await getLastMessageInChat(numberWa);
           switch (compareMessage) {
             case 'tiktok':
               const url = args.join(" ");
@@ -92,7 +93,7 @@ async function connectionLogic() {
                 await sock.sendMessage(numberWa, {text: "tautan tiktok dibutuhkan!"}, {quoted: messages[0]})
                 sock.chatModify({
                   delete: true,
-                  lastMessages: [{ key: messages[0].key, messageTimestamp: messages[0].messageTimestamp }]
+                  lastMessages: [{ key: lastMessages.key, messageTimestamp: lastMessages.messageTimestamp }]
                 }, numberWa)
               } else {
                 const ress = await fetch('https://tikdldtapi.vercel.app/download/json?url=' + url).then(res => res.json()).then(res => res.result);
@@ -108,7 +109,7 @@ async function connectionLogic() {
                   sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
                   sock.chatModify({
                     delete: true,
-                    lastMessages: [{ key: messages[0].key, messageTimestamp: messages[0].messageTimestamp }]
+                    lastMessages: [{ key: lastMessages.key, messageTimestamp: lastMessages.messageTimestamp }]
                   }, numberWa)
                 } else {
                   sock.sendMessage(numberWa, {text: "tunggu sebentar...\npermintaan anda sedang kami proses."}, {quoted: messages[0]})
@@ -119,7 +120,7 @@ async function connectionLogic() {
                   sock.sendMessage(numberWa, { audio, mimetype: 'audio/mpeg'})
                   sock.chatModify({
                     delete: true,
-                    lastMessages: [{ key: messages[0].key, messageTimestamp: messages[0].messageTimestamp }]
+                    lastMessages: [{ key: lastMessages.key, messageTimestamp: lastMessages.messageTimestamp }]
                   }, numberWa)
                 }
               }
@@ -132,7 +133,7 @@ async function connectionLogic() {
               }, {quoted: messages[0]});
               sock.chatModify({
                 delete: true,
-                lastMessages: [{ key: messages[0].key, messageTimestamp: messages[0].messageTimestamp }]
+                lastMessages: [{ key: lastMessages.key, messageTimestamp: lastMessages.messageTimestamp }]
               }, numberWa)
           }
         }
